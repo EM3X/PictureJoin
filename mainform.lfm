@@ -3,7 +3,7 @@ object Form1: TForm1
   Height = 129
   Top = 293
   Width = 393
-  Caption = 'Form1'
+  Caption = 'Picture Join'
   ClientHeight = 129
   ClientWidth = 393
   OnCreate = FormCreate
@@ -34,11 +34,17 @@ object Form1: TForm1
     Width = 120
     Caption = 'Combine'
     Enabled = False
+    OnClick = CombineClick
     TabOrder = 2
   end
   object BrowsePicture: TOpenDialog
     Filter = 'Pictures|*.jpg; *.png; *.jpeg'
     left = 32
+    top = 80
+  end
+  object SavePictureDialog: TSavePictureDialog
+    Filter = 'Bitmap|*.bmp'
+    left = 328
     top = 80
   end
 end
