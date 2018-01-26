@@ -1,0 +1,31 @@
+object Form1: TForm1
+  Left = 716
+  Height = 129
+  Top = 284
+  Width = 393
+  Caption = 'Form1'
+  ClientHeight = 129
+  ClientWidth = 393
+  LCLVersion = '1.8.0.6'
+  object OpenLeftPicture: TButton
+    Left = 32
+    Height = 25
+    Top = 24
+    Width = 112
+    Caption = 'Open Left Picture'
+    TabOrder = 0
+  end
+  object OpenRightPicture: TButton
+    Left = 248
+    Height = 25
+    Top = 24
+    Width = 112
+    Caption = 'Open Right Picture'
+    TabOrder = 1
+  end
+  object BrowsePicture: TOpenDialog
+    Filter = 'Pictures|*.jpg *.png *.jpeg'
+    left = 32
+    top = 80
+  end
+end
