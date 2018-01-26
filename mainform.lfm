@@ -1,30 +1,43 @@
 object Form1: TForm1
-  Left = 716
+  Left = 814
   Height = 129
-  Top = 284
+  Top = 293
   Width = 393
   Caption = 'Form1'
   ClientHeight = 129
   ClientWidth = 393
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   LCLVersion = '1.8.0.6'
   object OpenLeftPicture: TButton
-    Left = 32
+    Left = 24
     Height = 25
     Top = 24
     Width = 112
     Caption = 'Open Left Picture'
+    OnClick = OpenLeftPictureClick
     TabOrder = 0
   end
   object OpenRightPicture: TButton
-    Left = 248
+    Left = 256
     Height = 25
     Top = 24
     Width = 112
     Caption = 'Open Right Picture'
+    OnClick = OpenRightPictureClick
     TabOrder = 1
   end
+  object Combine: TButton
+    Left = 136
+    Height = 26
+    Top = 72
+    Width = 120
+    Caption = 'Combine'
+    Enabled = False
+    TabOrder = 2
+  end
   object BrowsePicture: TOpenDialog
-    Filter = 'Pictures|*.jpg *.png *.jpeg'
+    Filter = 'Pictures|*.jpg; *.png; *.jpeg'
     left = 32
     top = 80
   end
