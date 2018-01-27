@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="10"/>
     <BuildModes Active="Default"/>
-    <Units Count="5">
+    <Units Count="6">
       <Unit0>
         <Filename Value="PictureJoin.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -12,24 +12,25 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="21"/>
       </Unit0>
       <Unit1>
         <Filename Value="mainform.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="Form1"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="MainForm"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="74"/>
-        <CursorPos X="54" Y="88"/>
-        <UsageCount Value="20"/>
+        <TopLine Value="93"/>
+        <CursorPos X="30" Y="116"/>
+        <UsageCount Value="21"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="H:\development\lazarus\lcl\include\picture.inc"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="2"/>
         <TopLine Value="502"/>
         <CursorPos X="42" Y="507"/>
         <UsageCount Value="10"/>
@@ -38,7 +39,7 @@
       <Unit3>
         <Filename Value="H:\development\lazarus\lcl\dialogs.pp"/>
         <UnitName Value="Dialogs"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="1"/>
         <TopLine Value="136"/>
         <CursorPos X="14" Y="150"/>
         <UsageCount Value="10"/>
@@ -47,14 +48,20 @@
       <Unit4>
         <Filename Value="H:\development\lazarus\lcl\graphics.pp"/>
         <UnitName Value="Graphics"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="1503"/>
-        <CursorPos X="3" Y="1518"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1827"/>
+        <CursorPos X="27" Y="1843"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit4>
+      <Unit5>
+        <Filename Value="H:\development\lazarus\fpc\3.0.4\source\rtl\objpas\sysutils\finah.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="10"/>
+        <CursorPos X="10" Y="25"/>
+        <UsageCount Value="10"/>
+      </Unit5>
     </Units>
-    <JumpHistory Count="22" HistoryIndex="17">
+    <JumpHistory Count="24" HistoryIndex="23">
       <Position1>
         <Filename Value="mainform.pas"/>
         <Caret Line="18" Column="57"/>
@@ -128,21 +135,29 @@
         <Caret Line="83" Column="3" TopLine="68"/>
       </Position18>
       <Position19>
-        <Filename Value="H:\development\lazarus\lcl\graphics.pp"/>
-        <Caret Line="1518" Column="3" TopLine="1503"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="84" Column="9" TopLine="74"/>
       </Position19>
       <Position20>
-        <Filename Value="H:\development\lazarus\lcl\graphics.pp"/>
-        <Caret Line="1489" Column="3" TopLine="1483"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="97" Column="48" TopLine="77"/>
       </Position20>
       <Position21>
-        <Filename Value="H:\development\lazarus\lcl\graphics.pp"/>
-        <Caret Line="1432" Column="3" TopLine="1423"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="23" Column="79" TopLine="9"/>
       </Position21>
       <Position22>
-        <Filename Value="H:\development\lazarus\lcl\graphics.pp"/>
-        <Caret Line="1291" Column="3" TopLine="1348"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="68" Column="85" TopLine="45"/>
       </Position22>
+      <Position23>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="52" Column="32" TopLine="36"/>
+      </Position23>
+      <Position24>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="54" Column="25" TopLine="36"/>
+      </Position24>
     </JumpHistory>
   </ProjectSession>
 </CONFIG>

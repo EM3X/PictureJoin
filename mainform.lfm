@@ -43,7 +43,7 @@ object Form1: TForm1
     top = 80
   end
   object SavePictureDialog: TSavePictureDialog
-    Filter = 'Bitmap|*.bmp'
+    Filter = 'Picture|*.jpg'
     left = 328
     top = 80
   end
