@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtDlgs, Math;
+  ExtDlgs, ExtCtrls, Math;
 
 type
 
@@ -14,6 +14,7 @@ type
 
   TForm1 = class(TForm)
     BrowsePicture: TOpenDialog;
+    StatusLabel: TLabel;
     OpenLeftPicture: TButton;
     Combine: TButton;
     OpenRightPicture: TButton;
@@ -21,13 +22,18 @@ type
     procedure CombineClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormDropFiles(Sender: TObject; const FileNames: array of string);
     procedure OpenLeftPictureClick(Sender: TObject);
+    procedure OpenLeftPictureExec(FilePath: string);
     procedure OpenRightPictureClick(Sender: TObject);
+    procedure OpenRightPictureExec(FilePath: string);
   private
     LeftPicture: TPicture;
     RightPicture: TPicture;
     IsLoaded: byte;
     CombinedFileName: string;
+    procedure ChangeStatus(msg: string);
+    procedure CheckReady;
   public
 
   end;
@@ -49,17 +55,27 @@ begin
   begin
     if FileExists(BrowsePicture.FileName) then
     begin
-      LeftPicture.LoadFromFile(BrowsePicture.FileName);
-      IsLoaded := IsLoaded or $0F;
-      Filename := ExtractFileName(BrowsePicture.FileName);
-      Filename := Copy(Filename, 1, Filename.LastIndexOf('.'));
-      CombinedFileName := Filename + '_' + CombinedFileName;
+      OpenLeftPictureExec(BrowsePicture.FileName);
     end;
   end;
 
   if IsLoaded = $FF then
     Combine.Enabled := True;
 
+end;
+
+procedure TForm1.OpenLeftPictureExec(FilePath: string);
+var
+  FileName: string;
+begin
+  ChangeStatus('Loading Left Picture');
+  LeftPicture.LoadFromFile(FilePath);
+  IsLoaded := IsLoaded or $0F;
+  Filename := ExtractFileName(FilePath);
+  Filename := Copy(Filename, 1, Filename.LastIndexOf('.'));
+  CombinedFileName := Filename + '_' + CombinedFileName;
+  ChangeStatus('');
+  CheckReady;
 end;
 
 procedure TForm1.OpenRightPictureClick(Sender: TObject);
@@ -70,15 +86,36 @@ begin
   begin
     if FileExists(BrowsePicture.FileName) then
     begin
-      RightPicture.LoadFromFile(BrowsePicture.FileName);
-      IsLoaded := IsLoaded or $F0;
-      Filename := ExtractFileName(BrowsePicture.FileName);
-      Filename := Copy(Filename, 1, Filename.LastIndexOf('.'));
-      CombinedFileName := CombinedFileName + Filename;
+      OpenRightPictureExec(BrowsePicture.FileName);
     end;
+  end;
+end;
 
-    if IsLoaded = $FF then
-      Combine.Enabled := True;
+procedure TForm1.OpenRightPictureExec(FilePath: string);
+var
+  Filename: string;
+begin
+  ChangeStatus('Loading Right Picture');
+  RightPicture.LoadFromFile(FilePath);
+  IsLoaded := IsLoaded or $F0;
+  Filename := ExtractFileName(FilePath);
+  Filename := Copy(Filename, 1, Filename.LastIndexOf('.'));
+  CombinedFileName := CombinedFileName + Filename;
+  ChangeStatus('');
+  CheckReady;
+end;
+
+procedure TForm1.ChangeStatus(msg: string);
+begin
+  StatusLabel.Caption := msg;
+  Application.ProcessMessages;
+end;
+
+procedure TForm1.CheckReady;
+begin
+  if IsLoaded = $FF then begin
+    Combine.Enabled := True;
+    ChangeStatus('Ready for Combining');
   end;
 end;
 
@@ -98,28 +135,36 @@ begin
   CombinedResult := TBitmap.Create;
   JPEG := TJPEGImage.Create;
   try
-    CombinedResult.Width := LeftPicture.Width + RightPicture.Width;
-    CombinedResult.Height := Math.Max(LeftPicture.Height, RightPicture.Height);
-    CombinedResult.Canvas.Draw(0, 0, LeftPicture.Graphic);
-    CombinedResult.Canvas.Draw(LeftPicture.Width, 0, RightPicture.Graphic);
+    try
+      CombinedResult.Width := LeftPicture.Width + RightPicture.Width;
+      CombinedResult.Height := Math.Max(LeftPicture.Height, RightPicture.Height);
+      CombinedResult.Canvas.Draw(0, 0, LeftPicture.Graphic);
+      CombinedResult.Canvas.Draw(LeftPicture.Width, 0, RightPicture.Graphic);
 
-    JPEG.Assign(CombinedResult);
-    JPEG.CompressionQuality := 80;
+      JPEG.Assign(CombinedResult);
+      JPEG.CompressionQuality := 80;
 
-    SavePictureDialog.FileName := CombinedFileName;
+      SavePictureDialog.FileName := CombinedFileName;
 
-    if SavePictureDialog.Execute then
-    begin
-      JPEG.SaveToFile(SavePictureDialog.FileName);
+      if SavePictureDialog.Execute then
+      begin
+        JPEG.SaveToFile(SavePictureDialog.FileName);
+      end;
+
+    except
       IsLoaded := 0;
       Combine.Enabled := False;
       CombinedFileName := '';
+      ChangeStatus('');
+      CombinedResult.Free;
+      JPEG.Free;
     end;
 
   finally
     IsLoaded := 0;
     Combine.Enabled := False;
     CombinedFileName := '';
+    ChangeStatus('');
     CombinedResult.Free;
     JPEG.Free;
   end;
@@ -129,6 +174,29 @@ procedure TForm1.FormDestroy(Sender: TObject);
 begin
   LeftPicture.Free;
   RightPicture.Free;
+end;
+
+procedure TForm1.FormDropFiles(Sender: TObject; const FileNames: array of string);
+var
+  FilesCnt: Integer;
+begin
+  FilesCnt := Length(FileNames);
+  if FilesCnt > 2 then begin
+     ShowMessage('Max two files supported!');
+     Exit;
+  end;
+
+  if FilesCnt = 2 then begin
+    OpenLeftPictureExec(FileNames[0]);
+    OpenRightPictureExec(FileNames[1]);
+  end
+  else begin
+    if IsLoaded = $0F then
+      OpenRightPictureExec(FileNames[0])
+    else
+      OpenLeftPictureExec(FileNames[0]);
+  end;
+
 end;
 
 end.
