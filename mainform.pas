@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtDlgs, ExtCtrls, Math;
+  ExtDlgs, ExtCtrls, Menus, Math;
 
 type
 
@@ -14,6 +14,9 @@ type
 
   TForm1 = class(TForm)
     BrowsePicture: TOpenDialog;
+    MainMenu1: TMainMenu;
+    ResizeHeight: TMenuItem;
+    OptionsMenu: TMenuItem;
     StatusLabel: TLabel;
     OpenLeftPicture: TButton;
     Combine: TButton;
@@ -48,8 +51,6 @@ implementation
 { TForm1 }
 
 procedure TForm1.OpenLeftPictureClick(Sender: TObject);
-var
-  Filename: string;
 begin
   if BrowsePicture.Execute then
   begin
@@ -79,8 +80,6 @@ begin
 end;
 
 procedure TForm1.OpenRightPictureClick(Sender: TObject);
-var
-  Filename: string;
 begin
   if BrowsePicture.Execute then
   begin
@@ -113,7 +112,8 @@ end;
 
 procedure TForm1.CheckReady;
 begin
-  if IsLoaded = $FF then begin
+  if IsLoaded = $FF then
+  begin
     Combine.Enabled := True;
     ChangeStatus('Ready for Combining');
   end;
@@ -125,17 +125,44 @@ begin
   RightPicture := TPicture.Create;
   IsLoaded := 0;
   CombinedFileName := '';
+  StatusLabel.Caption := '';
 end;
 
 procedure TForm1.CombineClick(Sender: TObject);
 var
   CombinedResult: TBitmap;
   JPEG: TJPEGImage;
+  ResizeScale: double;
 begin
   CombinedResult := TBitmap.Create;
   JPEG := TJPEGImage.Create;
   try
     try
+
+      if ResizeHeight.Checked then
+      begin
+
+        if LeftPicture.Height < RightPicture.Height then
+        begin
+          ResizeScale := LeftPicture.Height / RightPicture.Height;
+          RightPicture.Bitmap.Canvas.StretchDraw(
+            Rect(0, 0, round(RightPicture.Width * ResizeScale),
+            round(RightPicture.Height * ResizeScale)), RightPicture.Bitmap);
+          RightPicture.Bitmap.SetSize(round(RightPicture.Width * ResizeScale),
+            round(RightPicture.Height * ResizeScale));
+        end
+        else
+        begin
+          ResizeScale := RightPicture.Height / LeftPicture.Height;
+          LeftPicture.Bitmap.Canvas.StretchDraw(
+            Rect(0, 0, round(LeftPicture.Width * ResizeScale),
+            round(LeftPicture.Height * ResizeScale)), LeftPicture.Bitmap);
+          LeftPicture.Bitmap.SetSize(round(LeftPicture.Width * ResizeScale),
+            round(LeftPicture.Height * ResizeScale));
+        end;
+
+      end;
+
       CombinedResult.Width := LeftPicture.Width + RightPicture.Width;
       CombinedResult.Height := Math.Max(LeftPicture.Height, RightPicture.Height);
       CombinedResult.Canvas.Draw(0, 0, LeftPicture.Graphic);
@@ -178,19 +205,22 @@ end;
 
 procedure TForm1.FormDropFiles(Sender: TObject; const FileNames: array of string);
 var
-  FilesCnt: Integer;
+  FilesCnt: integer;
 begin
   FilesCnt := Length(FileNames);
-  if FilesCnt > 2 then begin
-     ShowMessage('Max two files supported!');
-     Exit;
+  if FilesCnt > 2 then
+  begin
+    ShowMessage('Max two files supported!');
+    Exit;
   end;
 
-  if FilesCnt = 2 then begin
+  if FilesCnt = 2 then
+  begin
     OpenLeftPictureExec(FileNames[0]);
     OpenRightPictureExec(FileNames[1]);
   end
-  else begin
+  else
+  begin
     if IsLoaded = $0F then
       OpenRightPictureExec(FileNames[0])
     else

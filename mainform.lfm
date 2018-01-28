@@ -1,12 +1,14 @@
 object Form1: TForm1
   Left = 851
-  Height = 129
+  Height = 153
   Top = 293
   Width = 393
   AllowDropFiles = True
   Caption = 'Picture Join'
-  ClientHeight = 129
+  ClientHeight = 133
   ClientWidth = 393
+  FormStyle = fsSystemStayOnTop
+  Menu = MainMenu1
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnDropFiles = FormDropFiles
@@ -40,10 +42,11 @@ object Form1: TForm1
     TabOrder = 2
   end
   object StatusLabel: TLabel
-    Left = 24
-    Height = 1
-    Top = 112
-    Width = 1
+    Left = 27
+    Height = 15
+    Top = 113
+    Width = 19
+    Caption = 'stlb'
     ParentColor = False
   end
   object BrowsePicture: TOpenDialog
@@ -55,5 +58,17 @@ object Form1: TForm1
     Filter = 'Picture|*.jpg'
     left = 328
     top = 56
+  end
+  object MainMenu1: TMainMenu
+    left = 176
+    top = 8
+    object OptionsMenu: TMenuItem
+      Caption = 'Options'
+      object ResizeHeight: TMenuItem
+        AutoCheck = True
+        Caption = 'Resize Height'
+        Checked = True
+      end
+    end
   end
 end
