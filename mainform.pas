@@ -75,7 +75,7 @@ begin
   Filename := ExtractFileName(FilePath);
   Filename := Copy(Filename, 1, Filename.LastIndexOf('.'));
   CombinedFileName := Filename + '_' + CombinedFileName;
-  ChangeStatus('');
+  ChangeStatus('Left Picture Loaded');
   CheckReady;
 end;
 
@@ -100,7 +100,7 @@ begin
   Filename := ExtractFileName(FilePath);
   Filename := Copy(Filename, 1, Filename.LastIndexOf('.'));
   CombinedFileName := CombinedFileName + Filename;
-  ChangeStatus('');
+  ChangeStatus('Right Picture Loaded');
   CheckReady;
 end;
 

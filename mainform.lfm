@@ -12,21 +12,21 @@ object Form1: TForm1
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnDropFiles = FormDropFiles
-  LCLVersion = '1.8.0.6'
+  LCLVersion = '1.9.0.0'
   object OpenLeftPicture: TButton
     Left = 24
     Height = 25
     Top = 24
-    Width = 112
+    Width = 130
     Caption = 'Open Left Picture'
     OnClick = OpenLeftPictureClick
     TabOrder = 0
   end
   object OpenRightPicture: TButton
-    Left = 256
+    Left = 240
     Height = 25
     Top = 24
-    Width = 112
+    Width = 130
     Caption = 'Open Right Picture'
     OnClick = OpenRightPictureClick
     TabOrder = 1
@@ -51,17 +51,17 @@ object Form1: TForm1
   end
   object BrowsePicture: TOpenDialog
     Filter = 'Pictures|*.jpg; *.png; *.jpeg'
-    left = 32
-    top = 56
+    Left = 32
+    Top = 56
   end
   object SavePictureDialog: TSavePictureDialog
     Filter = 'Picture|*.jpg'
-    left = 328
-    top = 56
+    Left = 328
+    Top = 56
   end
   object MainMenu1: TMainMenu
-    left = 176
-    top = 8
+    Left = 176
+    Top = 8
     object OptionsMenu: TMenuItem
       Caption = 'Options'
       object ResizeHeight: TMenuItem
